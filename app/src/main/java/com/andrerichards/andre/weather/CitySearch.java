@@ -87,10 +87,10 @@ public class CitySearch extends Fragment {
                         @Override
                         public void onResponse(Response<GetWeatherObjects> response, retrofit.Retrofit retrofit) {
 
-                            GetWeatherObjects getWeatherObjects = new GetWeatherObjects();
-                            Main main = new Main();
-                            cityName.setText(String.valueOf(getWeatherObjects.getName()));
-                            temperature.setText(String.valueOf(main.getTemp()));
+                            cityName.setText(response.body().getName());
+                            int temp = (int) Math.round(response.body().getMain().getTemp() - 220.57);
+                            temperature.setText((temp) + " \u2109");
+                            condition.setText(response.body().getWeather().get(0).getDescription().toUpperCase());
                         }
 
                         @Override
