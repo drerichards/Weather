@@ -14,11 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andrerichards.andre.weather.com.andrerichards.andre.weather.GetWeatherObjects;
+import com.andrerichards.andre.weather.com.andrerichards.andre.weather.Main;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-
-import org.json.JSONObject;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -89,6 +87,10 @@ public class CitySearch extends Fragment {
                         @Override
                         public void onResponse(Response<GetWeatherObjects> response, retrofit.Retrofit retrofit) {
 
+                            GetWeatherObjects getWeatherObjects = new GetWeatherObjects();
+                            Main main = new Main();
+                            cityName.setText(String.valueOf(getWeatherObjects.getName()));
+                            temperature.setText(String.valueOf(main.getTemp()));
                         }
 
                         @Override
@@ -96,6 +98,9 @@ public class CitySearch extends Fragment {
                             Log.d("flow", "failure");
                         }
                     });
+
+
+
 
 
 
