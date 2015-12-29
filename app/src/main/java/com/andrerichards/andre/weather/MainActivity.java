@@ -1,39 +1,14 @@
 package com.andrerichards.andre.weather;
 
-import android.os.AsyncTask;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String[] cityArray;
-    private Button searchButton;
-    private String searchUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String apiKey = "&APPID=ef4fe2ec9c96d75eb824cf8e9b2cf61a";
-    private String query;
-    private ListView cityList;
-    private EditText cityEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,84 +17,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        cityEntry = (EditText) findViewById(R.id.cityEntry);
-        cityList = (ListView) findViewById(R.id.cityListView);
-        searchButton = (Button) findViewById(R.id.searchButton);
+        CitySearch citySearch = new CitySearch();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        
-
-    }
-
-    private class JsonSearchTask extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... arg0)
-        {
-            try
-            {
-                parseResult(sendQuery(query));
-            }
-            catch (JSONException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        private String sendQuery(String query) throws IOException
-        {
-            String queryResult = "";
-
-            URL searchURL = new URL(query);
-
-            HttpURLConnection httpURLConnection = (HttpURLConnection) searchURL.openConnection();
-
-            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK)
-            {
-                InputStreamReader inputStreamReader = new InputStreamReader(httpURLConnection.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader, 8192);
-
-                String line = null;
-
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    queryResult += line;
-                }
-
-                bufferedReader.close();
-            }
-
-            return queryResult;
-        }
-
-        private void parseResult(String json) throws JSONException
-        {
-            String parsedResult = "";
-
-            JSONObject jsonObject = new JSONObject(json);
-
-            JSONObject jsonObject_responseData = jsonObject.getJSONObject("responseData");
-
-            JSONArray jsonArray_results = jsonObject_responseData.getJSONArray("results");
-
-            cityArray = new String[jsonArray_results.length()];
-
-            for(int i = 0; i < jsonArray_results.length(); i++)
-            {
-                JSONObject jsonObject_i = jsonArray_results.getJSONObject(i);
-                parsedResult = "title: " + jsonObject_i.getString("title") + "\n";
-                parsedResult += "url: " + jsonObject_i.getString("url") + "\n";
-                //parsedResult += "\n";
-                cityArray[i] = parsedResult;
-            }
-        }
+        transaction.replace(R.id.parent_fragment, citySearch);
+        transaction.commit();
     }
 
     @Override
