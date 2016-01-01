@@ -15,7 +15,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="#FFFFFF"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20" />
 
     <EditText
         android:layout_width="200dp"
@@ -32,31 +36,5 @@
         android:id="@+id/weatherButton"
         android:layout_below="@+id/cityEntry"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/cityField"
-        android:layout_above="@+id/temperature"
-        android:layout_alignLeft="@+id/weatherButton"
-        android:layout_alignStart="@+id/weatherButton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/temperature"
-        android:textSize="60dp"
-        android:layout_above="@+id/weatherCondition"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/weatherCondition"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="54dp" />
 
 </RelativeLayout>

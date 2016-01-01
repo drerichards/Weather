@@ -3,12 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#000000" >
+    android:backgroundTint="#FFFFFF" >
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/background" />
+        android:id="@+id/background"
+        android:background="#000000"
+        android:alpha="0.9" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +22,11 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:typeface="serif"
-        android:textColor="#FFFFFF"  />
+        android:textColor="#FFFFFF"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,18 +36,26 @@
         android:layout_gravity="center_horizontal"
         android:textColor="#FFFFFF"
         android:layout_below="@+id/cityField"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/temperature"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:layout_gravity="center_horizontal"
         android:textColor="#FFFFFF"
         android:layout_below="@+id/date"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -62,7 +76,11 @@
         android:textColor="#FFFFFF"
         android:gravity="center|center_horizontal"
         android:layout_below="@+id/weatherIcon"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -74,6 +92,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
 
 </RelativeLayout>
