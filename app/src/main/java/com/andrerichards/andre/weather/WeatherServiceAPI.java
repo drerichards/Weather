@@ -13,7 +13,7 @@ import retrofit.http.Query;
 
 public interface WeatherServiceAPI {
 
-    @GET("/data/2.5/weather?q=miami&APPID=ef4fe2ec9c96d75eb824cf8e9b2cf61a")
-    Call<GetWeatherObjects> listJSONObjects();
-//    @Path("name") String name
+    @GET("/weather?q={name}")
+    Call<GetWeatherObjects> listJSONObjects(@Query("name") String name);
+
 }
