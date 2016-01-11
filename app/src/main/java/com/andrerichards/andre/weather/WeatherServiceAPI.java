@@ -4,16 +4,15 @@ import com.andrerichards.andre.weather.com.andrerichards.andre.weather.GetWeathe
 
 import retrofit.Call;
 import retrofit.http.GET;
-import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.Url;
+import retrofit2.http.Path;
 
 /**
  * Created by Andre on 12/27/2015.
  */
 
 public interface WeatherServiceAPI {
-
-    @GET("/weather?q={name}")
-    Call<GetWeatherObjects> listJSONObjects(@Query("name") String name);
-
+    @GET
+    Call<GetWeatherObjects> JSONObjects(@Url String url);
 }
