@@ -58,7 +58,7 @@ public class CitySearch extends Fragment {
         sunrise = (TextView) layout.findViewById(R.id.sunrise);
         sunset = (TextView) layout.findViewById(R.id.sunset);
         windSpd = (TextView) layout.findViewById(R.id.windSpd);
-
+        showDateDisplay();
         weatherBtn = (Button) layout.findViewById(R.id.weatherButton);
         weatherBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +92,7 @@ public class CitySearch extends Fragment {
         weatherObjects.enqueue(new Callback<GetWeatherObjects>() {
             @Override
             public void onResponse(Response<GetWeatherObjects> response, retrofit.Retrofit retrofit) {
-                cityName.setText(response.body().getName());
+                cityName.setText(response.body().getName()+", "+response.body().getSys().getCountry());
                 cityName.startAnimation(AnimationUtils.loadAnimation(getActivity().getBaseContext(),
                         android.R.anim.fade_in));
                 background.startAnimation(AnimationUtils.loadAnimation(getActivity().getBaseContext(),
@@ -102,7 +102,7 @@ public class CitySearch extends Fragment {
                 temperature.setText((temp) + " \u2109");
                 String cond = response.body().getWeather().get(0).getDescription();
                 condition.setText(Character.toUpperCase(cond.charAt(0)) + cond.substring(1));
-                showDateDisplay();
+
                 int mxTmp = (int) Math.round(response.body().getMain().getTemp_max());
                 maxTemp.setText("Max Temp: " + (mxTmp) + " \u2109");
                 int mnTmp = (int) Math.round(response.body().getMain().getTemp_min());
@@ -150,7 +150,7 @@ public class CitySearch extends Fragment {
                         background.setBackgroundResource(R.drawable.foggy);
                         break;
                     case "01n":
-                        weatherIcon.setImageResource(R.drawable.moon_icon);
+                        weatherIcon.setImageResource(R.drawable.nightcloud);
                         background.setBackgroundResource(R.drawable.starry);
                         break;
                     case "02n":
