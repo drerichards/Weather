@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/date"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:shadowColor="#000"
         android:shadowDx="7"
         android:shadowDy="7"

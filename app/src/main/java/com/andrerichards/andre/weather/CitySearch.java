@@ -40,9 +40,7 @@ public class CitySearch extends Fragment {
     protected ImageView weatherIcon, background;
 
     private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private static final String API_KEY = "&units=imperial&appid=2de143494c0b295cca9337e1e96b00e0";
-
-    private String anim = "AnimationUtils.loadAnimation(getActivity().getBaseContext(),android.R.anim.fade_in";
+    private static final String API_KEY = "&units=imperial&appid=ef4fe2ec9c96d75eb824cf8e9b2cf61a";
 
     @Nullable
     @Override

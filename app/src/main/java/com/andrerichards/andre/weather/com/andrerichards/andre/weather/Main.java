@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 public class Main {
 
     private double temp;
-    private int pressure;
+    private double pressure;
     private int humidity;
     private double temp_min;
     private double temp_max;
@@ -33,7 +33,7 @@ public class Main {
      * @param temp_min
      * @param temp
      */
-    public Main(double temp, int pressure, int humidity, double temp_min, double temp_max) {
+    public Main(double temp, double pressure, int humidity, double temp_min, double temp_max) {
         this.temp = temp;
         this.pressure = pressure;
         this.humidity = humidity;
@@ -69,7 +69,7 @@ public class Main {
      * @return
      * The pressure
      */
-    public int getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
@@ -78,11 +78,11 @@ public class Main {
      * @param pressure
      * The pressure
      */
-    public void setPressure(int pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 
-    public Main withPressure(int pressure) {
+    public Main withPressure(double pressure) {
         this.pressure = pressure;
         return this;
     }
