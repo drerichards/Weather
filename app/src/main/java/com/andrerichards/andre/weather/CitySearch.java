@@ -1,6 +1,7 @@
 package com.andrerichards.andre.weather;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andrerichards.andre.weather.com.andrerichards.andre.weather.GetWeatherObjects;
@@ -22,6 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -31,13 +35,20 @@ import retrofit.Response;
  * Created by Andre on 12/24/2015.
  */
 public class CitySearch extends Fragment {
+    @Bind(R.id.cityEntry) EditText cityEntry;
+    @Bind(R.id.background) ImageView background;
+    @Bind(R.id.cityField) TextView cityName;
+    @Bind(R.id.temperature) TextView temperature;
+    @Bind(R.id.weatherIcon) ImageView weatherIcon;
+    @Bind(R.id.weatherCondition) TextView condition;
+    @Bind(R.id.date) TextView dateDisplay;
+    @Bind(R.id.maxTemp) TextView maxTemp;
+    @Bind(R.id.minTemp) TextView minTemp;
+    @Bind(R.id.sunrise) TextView sunrise;
+    @Bind(R.id.sunset) TextView sunset;
+    @Bind(R.id.windSpd) TextView windSpd;
+    @Bind(R.id.weatherFrame) FrameLayout weatherFrame;
 
-    private RelativeLayout layout;
-    protected EditText cityEntry;
-    protected Button weatherBtn;
-    protected TextView cityName, temperature, condition, dateDisplay, maxTemp, minTemp,
-    sunrise, sunset, windSpd;
-    protected ImageView weatherIcon, background;
 
     private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static final String API_KEY = "&units=imperial&appid=ef4fe2ec9c96d75eb824cf8e9b2cf61a";
@@ -45,41 +56,26 @@ public class CitySearch extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = (RelativeLayout) inflater.inflate(R.layout.search_fragment, container, false);
-        cityEntry = (EditText) layout.findViewById(R.id.cityEntry);
-        background = (ImageView) layout.findViewById(R.id.background);
-        cityName = (TextView) layout.findViewById(R.id.cityField);
-        temperature = (TextView) layout.findViewById(R.id.temperature);
-        weatherIcon = (ImageView) layout.findViewById(R.id.weatherIcon);
-        condition = (TextView) layout.findViewById(R.id.weatherCondition);
-        dateDisplay = (TextView) layout.findViewById(R.id.date);
-        maxTemp = (TextView) layout.findViewById(R.id.maxTemp);
-        minTemp = (TextView) layout.findViewById(R.id.minTemp);
-        sunrise = (TextView) layout.findViewById(R.id.sunrise);
-        sunset = (TextView) layout.findViewById(R.id.sunset);
-        windSpd = (TextView) layout.findViewById(R.id.windSpd);
+        View layout = inflater.inflate(R.layout.search_fragment, container, false);
+        ButterKnife.bind(this, layout);
         showDateDisplay();
-        weatherBtn = (Button) layout.findViewById(R.id.weatherButton);
-        weatherBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showWeather();
-            }
-        });
         return layout;
+    }
+
+    @OnClick(R.id.weatherButton)
+    public void getWeatherClick (View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        showWeather();
     }
 
     public void showWeather(){
         String city = cityEntry.getText().toString();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient();
-        // add your other interceptors …
-
-        // add logging as last interceptor
-        httpClient.interceptors().add(logging);  // <-- this is the important line!
+        httpClient.interceptors().add(logging);
 
         retrofit.Retrofit retrofit = new retrofit.Retrofit.Builder()
                 .baseUrl(WEATHER_URL)
@@ -102,7 +98,6 @@ public class CitySearch extends Fragment {
                 temperature.setText((temp) + " \u2109");
                 String cond = response.body().getWeather().get(0).getDescription();
                 condition.setText(Character.toUpperCase(cond.charAt(0)) + cond.substring(1));
-
                 int mxTmp = (int) Math.round(response.body().getMain().getTemp_max());
                 maxTemp.setText("Max Temp: " + (mxTmp) + " \u2109");
                 int mnTmp = (int) Math.round(response.body().getMain().getTemp_min());
@@ -121,15 +116,12 @@ public class CitySearch extends Fragment {
                         background.setBackgroundResource(R.drawable.sunny);
                         break;
                     case "02d":
+                    case "04d":
                         weatherIcon.setImageResource(R.drawable.partcloudy_icon);
                         background.setBackgroundResource(R.drawable.cloudy);
                         break;
                     case "03d":
                         weatherIcon.setImageResource(R.drawable.cloudy_icon);
-                        background.setBackgroundResource(R.drawable.cloudy);
-                        break;
-                    case "04d":
-                        weatherIcon.setImageResource(R.drawable.twocloud_icon);
                         background.setBackgroundResource(R.drawable.cloudy);
                         break;
                     case "09d":
@@ -150,21 +142,17 @@ public class CitySearch extends Fragment {
                         background.setBackgroundResource(R.drawable.foggy);
                         break;
                     case "01n":
-                        weatherIcon.setImageResource(R.drawable.nightcloud);
+                        weatherIcon.setImageResource(R.drawable.moon_icon);
                         background.setBackgroundResource(R.drawable.starry);
                         break;
                     case "02n":
+                    case "04n":
                         weatherIcon.setImageResource(R.drawable.night_icon);
                         background.setBackgroundResource(R.drawable.nightcloudy);
                         break;
                     case "03n":
                         weatherIcon.setImageResource(R.drawable.cloudy_icon);
                         background.setBackgroundResource(R.drawable.nightcloudy);
-                        break;
-                    case "04n":
-                        weatherIcon.setImageResource(R.drawable.twocloud_icon);
-                        background.setBackgroundResource(R.drawable.nightcloudy);
-                        break;
                     case "09n":
                     case "10n":
                         weatherIcon.setImageResource(R.drawable.rain_icon);
@@ -186,6 +174,7 @@ public class CitySearch extends Fragment {
                         weatherIcon.setImageResource(R.drawable.cloudy_icon);
                         background.setBackgroundResource(R.drawable.cloudy);
                 }
+                weatherFrame.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -213,6 +202,4 @@ public class CitySearch extends Fragment {
             e.printStackTrace();
         }
     }
-
-
 }
